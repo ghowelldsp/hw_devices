@@ -1,0 +1,7 @@
+.DS_Store
+.venv/
+.vscode/
+
+python/testData/
+
+audio_amplifiers/sta350bw/examples
