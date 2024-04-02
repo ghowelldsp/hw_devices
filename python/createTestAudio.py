@@ -14,7 +14,7 @@ y *= (2**(nBits-1) - 1)
 
 # write data to file
 fs = 48000
-t = 0.1
+t = 0.4
 nSamples = int(t * fs)
 np.savetxt('testData/testData.h', [y[0,0:nSamples]], fmt='%i', delimiter=',\n', newline='\n', 
            header=f'#define N_SAMPLES   ((uint32_t){nSamples}) \n int32_t testData[{nSamples}] = ' + '{', footer='};', comments='', encoding=None)

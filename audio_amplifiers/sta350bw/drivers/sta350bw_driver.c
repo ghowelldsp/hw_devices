@@ -59,23 +59,42 @@ static sta350bw_status_t write(
     size_t nBytes)
 {
     sta350bw_status_t ret;
-    uint8_t *pTmp;
+    uint8_t *pTmpWr, *pTmpRd;
+    uint32_t i;
 
     // create array to hold both the register address and the data
-    pTmp = (uint8_t*)calloc(nBytes+1, sizeof(uint8_t));
+    pTmpWr = (uint8_t*)calloc((nBytes<<1)+1, sizeof(uint8_t));
+    pTmpRd = pTmpWr + nBytes+1;
 
     // write reg address followed by all the data
-    *pTmp = regAddr;
-    memcpy(pTmp+1, pData, nBytes);
+    *pTmpWr = regAddr;
+    memcpy(pTmpWr+1, pData, nBytes);
 
     // write subaddress
-    if ((ret = H->write(H->deviceAddr, &regAddr, 1)) != STA350BW_STATUS_OK)
+    if ((ret = H->write(H->deviceAddr, pTmpWr, nBytes+1)) != STA350BW_STATUS_OK)
     {
-        free(pTmp);
+        free(pTmpWr);
         return ret;
     }
 
-    free(pTmp);
+    // readback data
+    if ((ret = read(H, regAddr, pTmpRd, nBytes)) != STA350BW_STATUS_OK)
+    {
+    	free(pTmpWr);
+    	return ret;
+    }
+
+    // compare data, return if data does not match
+    for (i = 0; i < nBytes; i++)
+    {
+    	if (pTmpWr[i+1] != pTmpRd[i])
+    	{
+    		free(pTmpWr);
+    		return ret;
+    	}
+    }
+
+    free(pTmpWr);
 
     return ret;
 }
