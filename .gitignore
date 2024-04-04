@@ -4,4 +4,9 @@
 
 python/testData/
 
-audio_amplifiers/sta350bw/examples
+audio_amplifiers/sta350bw/examples/st/.metadata/
+audio_amplifiers/sta350bw/examples/st/stm32f401re_example/.settings/
+audio_amplifiers/sta350bw/examples/st/stm32f401re_example/Debug/
+audio_amplifiers/sta350bw/examples/st/stm32f401re_example/Drivers/
+audio_amplifiers/sta350bw/examples/st/stm32f401re_example/stm32f401re_example.launch
+audio_amplifiers/sta350bw/examples/st/stm32f401re_example/stm32f401ret*
